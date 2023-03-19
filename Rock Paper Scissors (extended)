@@ -1,0 +1,51 @@
+def find_p1_points(p1,p2):
+    Weaponlis = ["R","P","S"]
+    p1s = ""
+    p2s = ""
+    for i in range(3):
+        for j in range(p1[i]):
+            p1s += Weaponlis[i]
+        for k in range(p2[i]):
+            p2s += Weaponlis[i]
+    #print(p1s,p2s)
+    p2l = list(p2s)
+    p1l = list(p1s)
+    score = 0
+    for j in range(len(p2l)):
+        if p2l[j] == "R":
+            print(p1l,p2l,"R",score)
+            try:
+                p1l.remove("P")
+                score += 1
+            except ValueError:
+                try:
+                    p1l.remove("R")
+                except ValueError:
+                    p1l.remove("S")
+                    score -= 1
+
+        elif p2l[j] == "P":
+            print(p1l,p2l,"P",score)
+            try:
+                p1l.remove("S")
+                score += 1
+            except ValueError:
+                try:
+                    p1l.remove("P")
+                except ValueError:
+                    p1l.remove("R")
+                    score -= 1
+           
+
+        else:
+            print(p1l,p2l,"S",score)
+            try:
+                p1l.remove("R")
+                score += 1
+            except ValueError:
+                try:
+                    p1l.remove("S")
+                except ValueError:
+                    p1l.remove("P")
+                    score -= 1
+    return score
