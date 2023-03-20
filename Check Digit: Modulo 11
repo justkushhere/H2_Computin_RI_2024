@@ -1,0 +1,19 @@
+def mod11(number):
+    #type your code here
+    numlis = list(str(number))
+    numlis = numlis[::-1]
+    result = False
+    total = 0
+    
+    for j in range (len(numlis)):
+        try:
+            total += int(numlis[j])*(j+1)
+        except ValueError:
+            if numlis[j] == "X":
+                numlis[j] = 10
+                total += int(numlis[j])*(j+1)
+            else:
+                break
+    if total != 0 and total%11 == 0:
+        result = True
+    return result
