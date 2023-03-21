@@ -1,0 +1,13 @@
+def intersect(d1, d2):
+    d3 = dict()
+    d1k = list(d1.keys())
+    d2k = list(d2.keys())
+    for a in range (len(d1)):
+        try:
+            if d2[d1k[a]] == d1[d1k[a]]:
+                d3[d1k[a]] = d1[d1k[a]]
+        except KeyError:
+            pass
+        
+    
+    return d3
