@@ -1,0 +1,5 @@
+def count_values(d1):
+    #type your code here
+    d1v = list(d1.values())
+    ans = len(set(d1v))
+    return ans  #integer
