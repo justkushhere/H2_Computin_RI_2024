@@ -1,0 +1,28 @@
+def checkNric(nric):
+    #type your code here
+    weightlis = [2,7,6,5,4,3,2]
+    accepted = ["F","T","G","S"]
+    if nric == "":
+        return False
+    elif nric[0] in accepted and nric[1:-1].isnumeric():
+        total = 0
+        nricl = list(nric)
+        for a in range(len(nric)-2):
+            total += weightlis[a]*int(nricl[a+1])
+        if nric[0] == "T" or nric[0] == "G":
+            total += 4
+        cd = 11 - (total%11)
+        cdslis = ["A","B","C","D","E","F","G","H","I","Z","J"]
+        fincdslis = ["K","L","M","N","P","Q","R","T","U","W","X"]
+        if nricl[0] == "F"  or nricl[0] == "G":
+            if fincdslis[cd-1] == nricl[-1]:
+                return True
+            else:
+                return False
+        else:
+            if cdslis[cd-1] == nricl[-1]:
+                return True
+            else:
+                return False
+    else:
+        return False
