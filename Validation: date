@@ -1,0 +1,22 @@
+def validate_date(date):
+    mon30 = ["04","06","09","11"]
+    mon31 = ["01","03","05","07","08","10","12"]
+    spedfeb = ["2000","2004","2008","2012","2016","2020"]
+    
+    result = False
+    if "/" in date:
+        if len(date) == 10 and int(date[-4:]) >= 2000 and int(date[-4:]) <= 2023 and len(date.split("/")) == 3:
+            day = date.split("/")[0]
+            month = date.split("/")[1]
+            year = date.split("/")[2]
+            if month in mon30 and int(day) > 0 and int(day) <= 30:
+                result = True
+            elif month in mon31 and int(day) > 0 and int(day) <= 31:
+                result = True
+            elif month == "02":
+                if year in spedfeb:
+                    if int(day) > 0 and int(day) <= 29:
+                        result = True
+                elif int(day) > 0 and int(day) <= 28:
+                    result = True
+    return result
