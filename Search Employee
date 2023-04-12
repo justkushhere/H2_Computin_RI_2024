@@ -1,0 +1,19 @@
+def SearchEmployee(searchItem):
+    #type your code here
+    result = ""
+    IdNum = ['L001', 'L002', 'L003', 'L007', 'L008', 'L009', 'L013', 'L014', 'L021', 'S001', 'S002', 'S003', 'S004', 'S005', 'S006', 'S007', 'S008', 'S009', 'S010', 'S011', 'S012', 'S013', 'S014', 'S015', 'S016', 'S017', 'S018', 'S019', 'S020', 'N011', 'N013', 'N016', 'N023']
+    SName = ['Ong', 'Pollard', 'Wills', 'Singh', 'Yallop', 'Adams', 'Davies', 'Patel', 'Kelly', 'Ong', 'Goh', 'Ong', 'Ang', 'Wong', 'Teo', 'Ho', 'Chong', 'Low', 'Sim', 'Tay', 'Tay', 'Chia', 'Tan', 'Yeo', 'Lim', 'Tan', 'Ng', 'Lim', 'Toh', 'Morris', 'Williams', 'Chua', 'Wong']
+
+    if searchItem in IdNum:
+        pos = IdNum.index(searchItem)
+        result += SName[pos]
+    elif searchItem in SName:
+        for a in range(len(SName)):
+            if SName[a] ==  searchItem:
+                if result == "":
+                    result += IdNum[a]
+                else:
+                    result += " " + IdNum[a]
+    else:
+        result = "Not found"
+    return result
