@@ -1,0 +1,11 @@
+def BinarySearch(Arr,FindValue,Low,High):
+    found = False
+    result = -1
+    mid = int((High+Low)/2)
+    if Arr[mid] == FindValue:
+        result = mid
+    elif Arr[mid] > FindValue and FindValue in Arr:
+        result = BinarySearch(Arr,FindValue,Low,mid-1)
+    elif Arr[mid] < FindValue and FindValue in Arr:
+        result = BinarySearch(Arr,FindValue,mid+1,High)
+    return result
