@@ -1,0 +1,15 @@
+def merge2Lists(list1, list2):
+    # Fill in your code here
+    final = []
+    while list1 and list2:
+        if list1[0] >= list2[0]:
+            final.append(list1[0])
+            list1 = list1[1:]
+        else:
+            final.append(list2[0])
+            list2 = list2[1:]
+    if list1:
+        final += list1
+    elif list2:
+        final += list2
+    return final
