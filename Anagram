@@ -1,0 +1,19 @@
+def fix_word(word):
+    out = []
+    for j in range(len(word)):
+        if word[j].isalpha():
+            out.append(word[j].lower())
+    out.sort()
+    return out
+def anagrams(stringOne, stringTwo):
+    output = True
+    listOne = fix_word(stringOne)
+    listTwo = fix_word(stringTwo)
+    if len(listOne) != len(listTwo):
+        output = False
+    else:
+        for j in range(len(listOne)):
+            if listOne[j].lower() != listTwo[j].lower():
+                output = False
+                break
+    return output
