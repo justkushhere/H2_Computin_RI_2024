@@ -1,0 +1,40 @@
+import csv
+#copy and paste your Quicksort function code from question 1 here, above your top8() function
+def Partition(Arr, First, Last):
+    PivotValue = Arr[First]
+    LeftMark = First + 1
+    RightMark = Last
+    Done = False
+
+    while Done == False:
+        while LeftMark <= RightMark and Arr[LeftMark] <= PivotValue:
+            LeftMark = LeftMark + 1
+        while LeftMark <= RightMark and Arr[RightMark] >= PivotValue:
+            RightMark = RightMark - 1
+        if LeftMark > RightMark:
+            Done = True
+        else:
+            Arr[LeftMark],Arr[RightMark] = Arr[RightMark],Arr[LeftMark]
+    Arr[First],Arr[RightMark] = Arr[RightMark],Arr[First]
+    return RightMark
+    
+
+def Quicksort(Array, First, Last):
+    if First < Last:
+        SplitPoint = Partition(Array, First, Last)
+        Quicksort(Array, First, SplitPoint - 1)
+        Quicksort(Array, SplitPoint + 1, Last)
+    return Array
+def top8():
+    data = open("RACE.csv","r")
+    time = []
+    top = []
+    reader = csv.reader(data)
+    for line in reader:
+        time.append([line[3],line[0]])
+    top = Quicksort(time,0,len(time)-1)[0:8]
+    ids = []
+    for t in top:
+        ids.append(t[1])
+    return (Quicksort(ids,0,len(ids)-1))
+
