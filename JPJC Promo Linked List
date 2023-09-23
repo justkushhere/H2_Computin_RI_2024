@@ -1,0 +1,116 @@
+
+#Task 3.1
+class COEBid():
+    def __init__(self,id,price):
+        self.cust_id = id
+        self.reserve_price = price
+        self.status = "Bidding in progress"
+    def get_cust_id(self):
+        return self.cust_id
+    def get_reserve_price(self):
+        return self.reserve_price
+    def get_status(self):
+        return self.status
+    def set_status(self,s):
+        self.status = s
+    def display(self):
+        return (str(self.cust_id) +", " + str(self.reserve_price) + ", "+ str(self.status))
+    
+
+
+class Node():
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+    def display(self):
+        return (str(self.data.cust_id) +", " + str(self.data.reserve_price) + ", "+ str(self.data.status))
+    
+
+class COELinkedList():
+    def __init__(self):
+        self.LON = []
+        self.start = -1
+        self.isfull = False
+        self.nextfree = 0 #base-0 Indexing
+        for i in range(5):
+            self.LON.append(Node("NULL"))
+        prev = 0
+        for j in range(1,len(self.LON)):
+            self.LON[prev].next = self.LON[j]
+            prev += 1
+        #for node in self.LON:
+           # print("NODE:",node.data,node.next)
+        
+    def insert_bid(self,data):
+        if not self.isfull:
+            if self.start == -1: #empty list
+                self.LON[self.nextfree].data = data
+                self.start = self.nextfree
+                self.nextfree = self.LON.index(self.LON[self.nextfree].next)
+                #print("First time, next free =",self.nextfree)
+                self.LON[self.start].next = 0 #Set to NULL
+            else: #Non empty list
+                first = self.LON[self.start]
+                prev = 0
+                while first.data.get_reserve_price() >= data.get_reserve_price() and first.next != 0:
+                    #print("is",first.data.get_reserve_price(),">",data.get_reserve_price(),"?")
+                    prev = first
+                    first = first.next
+                #print(first.next,".next")
+                if first.data.get_reserve_price() >= data.get_reserve_price():
+                    #print("what is nextfree",self.nextfree)
+                    first.next = self.LON[self.nextfree]
+                    self.LON[self.nextfree].data = data
+                    temp = self.LON.index(self.LON[self.nextfree].next)
+                    self.LON[self.nextfree].next = 0
+                    self.nextfree = temp
+                else:
+                    if prev == 0:
+                        self.LON[self.nextfree].data = data
+                        temp = self.LON.index(self.LON[self.nextfree].next)
+                        self.LON[self.nextfree].next = self.LON[self.start]
+                        self.start = self.nextfree
+                        self.nextfree = temp
+                    else:
+                        prev.next = self.LON[self.nextfree]
+                        self.LON[self.nextfree].data = data
+                        temp = self.LON[self.nextfree].next
+                        if temp != None:
+                            self.LON[self.nextfree].next = first
+                            self.nextfree = self.LON.index(temp)
+                        else:
+                            self.LON[self.nextfree].next = first
+                            self.isfull = True
+        else:
+            print("LinkedList Full")
+                        
+
+    def display_list(self):
+            if self.start != -1:
+                current = self.LON[self.start]
+                while current.next != 0:
+                    print("|{:^20}|-->".format(current.data.display()),end = "")
+                    current = current.next
+                print("|{:^20}|--> NULL".format(current.display()),end="\n")
+            else:
+                print("No Bids Yet")
+
+
+
+
+
+
+
+            
+car = COELinkedList()
+bid = COEBid("T001",5)
+bid2 = COEBid("T011",3)
+bid3 = COEBid("T101",9)
+bid4 = COEBid("T555",0)
+bid5 = COEBid("T666",3)
+car.insert_bid(bid)
+car.insert_bid(bid2)
+car.insert_bid(bid4)
+car.insert_bid(bid3)
+car.insert_bid(bid5)
+car.display_list()
