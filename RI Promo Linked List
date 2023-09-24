@@ -1,0 +1,110 @@
+
+#Task 2.1
+class ListNode():
+    def __init__(self):
+        self.Name = ""
+        self.Pointer = -1
+    def setName(self,name):
+        self.Name = name
+    def setPointer(self,Ptr):
+        self.Pointer = Ptr
+    def getName(self):
+        return self.Name
+    def getPointer(self):
+        return self.Pointer
+
+class LinkedList():
+    def __init__(self):
+        self.start = -1 #NULL taken as -1 since 0 base index
+        self.nextfree = 0
+        self.Nodes = []
+        for i in range(20):
+            self.Nodes.append(ListNode())
+            self.Nodes[i].setPointer(i + 1) #point to next node so all nodes unused and linked
+        self.Nodes[-1].setPointer(-1) #Last pointer points to NULL
+
+    def IsEmpty(self):
+        if self.start == -1:
+            return True
+        else:
+            return False
+
+    def IsFull(self):
+        if self.nextfree == -1:
+            return True
+        else:
+            return False
+
+    
+    def Insert(self,value):
+        if not self.IsFull():
+            if self.IsEmpty(): #Empty Linked List
+                self.Nodes[self.nextfree].setName(value)
+                temp = self.Nodes[self.nextfree].getPointer()
+                self.start = self.nextfree
+                self.Nodes[self.nextfree].setPointer(-1) #Point newly filled node to NULL since its the last one
+                self.nextfree = temp
+            else:
+                prev = -1
+                node = self.Nodes[self.start]
+                while node.getName() < value and node.getPointer() != -1:
+                    prev = node
+                    node = self.Nodes[node.getPointer()]
+                if node.getPointer() == -1 and node.getName() < value: #inserting to last node
+                    self.Nodes[self.nextfree].setName(value)
+                    node.setPointer(self.nextfree)
+                    temp = self.Nodes[self.nextfree].getPointer()
+                    self.Nodes[self.nextfree].setPointer(-1)  #Point newly filled node to NULL since its the last one
+                    self.nextfree = temp
+                elif prev != -1: #somewhere in between (not first node not last)
+                    temp  = self.Nodes[self.nextfree].getPointer()
+                    self.Nodes[self.nextfree].setName(value)
+                    self.Nodes[self.nextfree].setPointer(prev.getPointer())
+                    prev.setPointer(self.nextfree)
+                    self.nextfree = temp
+                else: #insert node at first position when LL longer than one node
+
+                    temp = self.Nodes[self.nextfree].getPointer()
+                    self.Nodes[self.nextfree].setName(value)
+                    self.Nodes[self.nextfree].setPointer(self.start)
+                    self.start = self.nextfree
+                    self.nextfree = temp
+        else:
+            print("Dataset has a maximum of 20 Nodes, LinkedList is full")
+
+    def Display(self): #Print in Table Form
+        if not self.IsEmpty():
+            print("|{:^8}|{:^20}|{:^8}|".format("Index","Data","Pointer"))
+            node = self.Nodes[self.start]
+            index = self.start
+            while node.getPointer() != -1:
+                print("|{:^8}|{:^20}|{:^8}|".format(str(index),node.getName(),str(node.getPointer())))
+                index = node.getPointer()
+                node = self.Nodes[node.getPointer()]
+                
+            print("|{:^8}|{:^20}|{:^8}|".format(str(index),node.getName(),str(node.getPointer())))
+            print("Start at index:",self.start)
+            print("NextFree at index:",self.nextfree)
+        else:
+            print("Empty Linked List")
+
+    def Delete(self,key):
+        if not self.IsEmpty():
+            node = self.Nodes[self.start]
+            prev = -1
+            while node.getName() != key and node.getPointer() != 0:
+                prev = node
+                node = self.Nodes[node.getPointer()]
+            if node.getPointer() == 0 and node.getName() != key:
+                print("Error, Key not found")
+            else:
+                if prev == -1: #Deleting the first node
+                    temp = node.getPointer()
+                    self.Nodes[self.start].setPointer(self.nextfree)
+                    self.nextfree = self.start
+                    self.start = temp
+                else:
+                    temp = node.getPointer()
+                    node.setPointer(self.nextfree)
+                    prev.setPointer(temp)
+                    self.nextfree = self.Nodes.index(node)
