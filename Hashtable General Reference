@@ -1,0 +1,132 @@
+class Node():
+    def __init__(self):
+        self.data = ""
+        self.pointer = 0
+    def setData(self,data):
+        self.data = data
+    def setPointer(self,Pointer):
+        self.pointer = Pointer
+    def getData(self):
+        return self.data
+    def getPointer(self):
+        return self.pointer
+    
+class LinkedList(): #LINKEDLIST 0 BASE INDEX
+    def __init__(self):
+        self.LON = ["NULL"]
+        for i in range(1,20):
+            node = Node()
+            node.setPointer(i + 1)
+            self.LON.append(node)
+        self.LON[-1].setPointer(0)
+        self.start = 0 #0 base index so 0 is null
+        self.nextfree = 1 #first used index
+
+        
+    def Insert(self,data):
+        if self.start == 0: #empty LL
+            self.LON[self.nextfree].setData(data)
+            temp = self.LON[self.nextfree].getPointer()
+            self.LON[self.nextfree].setPointer(0)
+            #print(temp)
+            self.start = self.nextfree
+            self.nextfree = temp
+        else:
+            node = self.LON[self.start]
+            while node.getPointer() != 0:
+                node = self.LON[node.getPointer()]
+            #now at a node who points to 0
+            self.LON[self.LON.index(node)].setPointer(self.nextfree)
+            self.LON[self.nextfree].setData(data)
+            temp = self.LON[self.nextfree].getPointer()
+            self.LON[self.nextfree].setPointer(0)
+            self.nextfree = temp
+
+           # print("nxtfree is",self.nextfree)
+    def Display(self):
+        if self.start == 0:
+            return "Empty"
+        else:
+            node = self.LON[self.start]
+            output = ""
+            while node.getPointer() != 0: 
+                output += ("|{:^20}|{:^5}|-->".format(str(node.getData()),str(node.getPointer())))
+                node = self.LON[node.getPointer()]
+            output += ("|{:^20}|{:^5}|--> NULL".format(str(node.getData()),str(node.getPointer())))
+            return output
+    def Remove(self,data):
+        if self.start == 0:
+            return("Empty LL")
+        else:
+            node = self.LON[self.start]
+            previous = None
+            while node.getData() != data and node.getPointer() != 0:
+                previous = node
+                node = self.LON[node.getPointer()]
+            if node.getData() == data: #found
+                if previous != None:
+                    previous.setPointer(node.getPointer())
+                    node.setPointer(self.nextfree)
+                    self.nextfree = self.LON.index(node)
+                else:
+                    self.start = node.getPointer()
+                    #print("start has become",self.start)
+                    node.setPointer(self.nextfree)
+                    self.nextfree = self.LON.index(node)
+            else:
+                return ("Node Not Found")
+    def Search(self,key):
+        node = self.LON[self.start]
+        while node.getData() != key and node.getPointer() != 0:
+            node = self.LON[node.getPointer()]
+        if node.getData() == key:
+            return True
+        else:
+            return False
+
+
+            
+class Hashtable():
+            def __init__(self):
+                self.size = 10
+                self.main = []
+                for i in range (self.size):
+                    self.main.append(LinkedList())
+            def Hash(self,string):
+                return (sum([ord(x) for x in string])%self.size)
+            def Insert(self,data):
+                pos = self.Hash(data)
+                self.main[pos].Insert(data)
+            def Remove(self,data):
+                pos = self.Hash(data)
+                self.main[pos].Remove(data)
+            def Search(self,data):
+                pos = self.Hash(data)
+                return self.main[pos].Search(data)
+            def Display(self):
+                print("|{:^5}|{:^85}|".format("Index","Data"))#HEADERS OF TABLE
+                for index in range(len(self.main)):
+                    print("|{:^5}|{:^85}|".format(str(index),self.main[index].Display()))
+
+l = LinkedList()
+l.Insert("hi")
+l.Insert("BYE")
+l.Remove("hi")
+#print(l.Display())
+
+h = Hashtable()
+h.Insert("e")
+h.Insert("32")
+h.Insert("23")
+h.Remove("e")
+h.Remove("32")
+h.Remove("23")
+h.Display()
+
+
+
+
+
+
+                    
+                    
